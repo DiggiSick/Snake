@@ -4,11 +4,26 @@ public class Snake extends GameCharacter {
 	 */
 //	public static HashMap<Integer, Integer> history = new HashMap<Integer, Integer>();
 
-	public Snake(int x, int y) {
-		super(x, y, 'S');
+	public Snake() {
+		super(0, 0, 'S');
 	}
 
-	public void move() {
+	public void move(Player playerLocation) {
+
+		int x = playerLocation.getLocationX();
+		int y = playerLocation.getLocationY();
+
+//		if (Tools.checkGap(this.getLocationX(), x, 0)) {
+//
+//		} else if (x > getLocationX()) {
+//			setLocationX(getLocationX() + 1);
+//		} else if (x < getLocationX()) {
+//			setLocationX(getLocationX() - 1);
+//		} else if (y > getLocationY()) {
+//			setLocationY(getLocationY() + 1);
+//		} else if (y <= getLocationY()) {
+//			setLocationY(getLocationY() - 1);
+//		}
 
 	}
 }

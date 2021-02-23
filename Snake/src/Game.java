@@ -14,8 +14,8 @@ public class Game {
 
 	public static void main(String[] args) {
 		Logic logic = new Logic();
-		logic.setCharacters();
-		logic.printField();
+		logic.runGame();
+
 	}
 
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -13,22 +14,39 @@ public class Logic {
 	// random object for automate Game character setting
 	Random random = new Random();
 	private int count = 0;
+
 	// set the size of the play field
 	private int row = 15;
-	private int col = 20;
+	private int col = 25;
 	// Creating play field here ##### Change size if you want
 
+	ArrayList<GameCharacter> characters = new ArrayList<>();
 	// Creating Game characters ##### Player Snake And Door
-	Door door = new Door((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	Snake snake = new Snake((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	Player player = new Player((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	Door door = new Door((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	Snake snake = new Snake((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	Player player = new Player((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//
+//	// Creating Traps here to increase difficulty
+//	Trapdoor trap1 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	Trapdoor trap2 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	Trapdoor trap3 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
 
-	// Creating Traps here to increase difficulty
-	Trapdoor trap1 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	Trapdoor trap2 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	Trapdoor trap3 = new Trapdoor((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	GameCharacter[] characters = { door, snake, player, trap1, trap2, trap3 };
 
-	GameCharacter[] characters = { door, snake, player, trap1, trap2, trap3 };
+	private void addCharsToList() {
+		characters.add(new Door());
+		characters.add(new Snake());
+		characters.add(new Player());
+
+		int traps = random.nextInt(5) + 3;
+//		System.out.println(traps);
+		for (int i = 0; i < traps; i++) {
+
+			characters.add(new Trapdoor());
+
+		}
+
+	}
 
 	public void printChars() {
 		for (GameCharacter gameCharacter : characters) {
@@ -47,7 +65,8 @@ public class Logic {
 		for (GameCharacter gameCharacter : characters) {
 			for (GameCharacter gameCharacter2 : characters) {
 				if (gameCharacter != gameCharacter2) {
-					gap = gameCharacter.getClass().getName() == "Trapdoor" ? 0 : 2;
+					gap = gameCharacter.getClass().getName() == "Trapdoor"
+							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 2;
 //					System.out
 //							.println(gameCharacter.getClass().getName() + " : " + gameCharacter2.getClass().getName());
 					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {
@@ -66,52 +85,72 @@ public class Logic {
 //			+ "Ziel des Spiels ist es die Tür '#' zu erreichen, bevor die Schlange 'S' Sie als Spieler 'P' erwischt!\n"
 //			+ "Wenn Sie nach einer Eingabe gefragt werden, Benutzen Sie die o.g Richtungstasten und bestätigen Sie mit enter um Ihren Zug abzuschließen.";
 
-	public void printField() {
+//	public void printField() {
+//
+//		for (int i = 0; i < row; i++) {
+//			System.out.print("\n");
+//			for (int j = 0; j < col; j++) {
+//				boolean isCharacter = false;
+//				for (GameCharacter gameCharacter : characters) {
+//					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
+//						System.out.print(gameCharacter.GetSymbol());
+//						isCharacter = true;
+//						continue;
+//					}
+//				}
+//				if (i == 0 || j == 0 || i == row - 1 || j == col - 1) {
+//					System.out.print('#');
+//				}
+//
+//				else if (!isCharacter) {
+//					System.out.print('.');
+//				}
+//			}
+//		}
+//
+//	}
 
+	public void printField() {
 		for (int i = 0; i < row; i++) {
 			System.out.print("\n");
 			for (int j = 0; j < col; j++) {
-				boolean isCharacter = false;
+				char symb = '.';
 				for (GameCharacter gameCharacter : characters) {
 					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
-						System.out.print(gameCharacter.GetSymbol());
-						isCharacter = true;
+						symb = gameCharacter.GetSymbol();
 						continue;
 					}
 				}
 				if (i == 0 || j == 0 || i == row - 1 || j == col - 1) {
-					System.out.print('#');
+					symb = '#';
 				}
-
-				else if (!isCharacter) {
-					System.out.print('.');
-				}
+				System.out.print(symb);
 			}
 		}
-
+		System.out.print("\n");
 	}
 
-	public void setTraps() {
-		trap1.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-		trap2.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-		trap3.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	}
-
-	private void setDoor() {
-
-		door.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	}
-
-	private void setSnake() {
-
-		snake.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-
-	}
-
-	private void setPlayer() {
-
-		player.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	}
+//	public void setTraps() {
+//		trap1.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//		trap2.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//		trap3.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	}
+//
+//	private void setDoor() {
+//
+//		door.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	}
+//
+//	private void setSnake() {
+//
+//		snake.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//
+//	}
+//
+//	private void setPlayer() {
+//
+//		player.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+//	}
 
 	/*
 	 * Checks the gap between characters and replace coordinates of all characters
@@ -147,17 +186,14 @@ public class Logic {
 //
 //	}
 
-	public void setCharacters() {
+	public void setPositions() {
 
 		while (!checkPositions()) {
 
-			setDoor();
+			for (GameCharacter gameCharacter : characters) {
+				gameCharacter.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
+			}
 
-			setSnake();
-
-			setPlayer();
-
-			setTraps();
 		}
 
 	}
@@ -193,34 +229,19 @@ public class Logic {
 //
 //	}
 
-//	public void runGame() {
+	public void createSnake() {
+		characters.add(new Snake());
+	}
+
+	public void runGame() {
 //		Scanner sc = new Scanner(System.in);
-//		setCharacters();
-//		player.move(sc.next().charAt(0));
-//		pf.SetFieldPosition(player);
-//
-//		pf.PrintField();
-//
-//		if (winGame()) {
-//			pf.clearLastPosition(player.getLocation());
-//			pf.setCharAt(player.getLocation());
-//
-//		} else if (lostGame()) {
-//			pf.clearLastPosition(player.getLocation());
-//			pf.setCharAt(player.getLocation());
-//			bo = true;
-//			sc.close();
-//		} else {
-//			runGame(bo);
-//		}
-//
-//		if (lost) {
-//			System.out.println("Game Over");
-//		} else {
-//			System.out.println("Gewonnen");
-//		}
+		addCharsToList();
+		setPositions();
+
+		printField();
+
 //		sc.close();
-//	}
+	}
 
 	public static void clearConsole() {
 		try {

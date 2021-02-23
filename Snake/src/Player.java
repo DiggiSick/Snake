@@ -8,8 +8,8 @@
  */
 public class Player extends GameCharacter {
 
-	public Player(int x, int y) {
-		super(x, y, 'P');
+	public Player() {
+		super(0, 0, 'P');
 	}
 
 	private int tmp;
@@ -28,11 +28,11 @@ public class Player extends GameCharacter {
 			break;
 		case 'a':
 			tmp = getLocationY();
-			setLocationX(--tmp);
+			setLocationY(--tmp);
 			break;
 		case 'd':
 			tmp = getLocationY();
-			setLocationX(++tmp);
+			setLocationY(++tmp);
 			break;
 
 		default:
