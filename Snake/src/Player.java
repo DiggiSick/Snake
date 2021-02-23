@@ -6,6 +6,8 @@
  * @author Nikolas
  *
  */
+
+
 public class Player extends GameCharacter {
 
 	public Player() {

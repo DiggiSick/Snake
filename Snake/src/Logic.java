@@ -82,9 +82,9 @@ public class Logic {
 
 	}
 	// Instruction Text for how the game should be played
-//	private String welcomeText = "\nWilkommen bei Snake. Um ihre Spielfigur zu bewegen benutzen Sie die Tasten 'W' für hoch, 'S' für runter, 'A' für links und 'D' für rechts.\n"
-//			+ "Ziel des Spiels ist es die Tür '#' zu erreichen, bevor die Schlange 'S' Sie als Spieler 'P' erwischt!\n"
-//			+ "Wenn Sie nach einer Eingabe gefragt werden, Benutzen Sie die o.g Richtungstasten und bestätigen Sie mit enter um Ihren Zug abzuschließen.";
+//	private String welcomeText = "\nWilkommen bei Snake. Um ihre Spielfigur zu bewegen benutzen Sie die Tasten 'W' fï¿½r hoch, 'S' fï¿½r runter, 'A' fï¿½r links und 'D' fï¿½r rechts.\n"
+//			+ "Ziel des Spiels ist es die Tï¿½r '#' zu erreichen, bevor die Schlange 'S' Sie als Spieler 'P' erwischt!\n"
+//			+ "Wenn Sie nach einer Eingabe gefragt werden, Benutzen Sie die o.g Richtungstasten und bestï¿½tigen Sie mit enter um Ihren Zug abzuschlieï¿½en.";
 
 //	public void printField() {
 //
@@ -112,6 +112,7 @@ public class Logic {
 //	}
 
 	public void printField() {
+		Tools.clrscr();
 		for (int i = 0; i < row; i++) {
 			System.out.print("\n");
 			for (int j = 0; j < col; j++) {
@@ -130,6 +131,7 @@ public class Logic {
 		}
 		System.out.print("\n");
 	}
+
 
 //	public void setTraps() {
 //		trap1.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
@@ -241,8 +243,9 @@ public class Logic {
 		addCharsToList();
 		setPositions();
 
-		printField();
+		
 		while (!snakebite) {
+			printField();
 			try {
 			inputKey =RawConsoleInput.read(true);
 			} catch (IOException e) {

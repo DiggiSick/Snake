@@ -2,6 +2,10 @@
  * 
  * Helper class for some functions 
  * */
+
+import java.io.IOException;
+
+
 public class Tools {
 
 	private static int getDifference(int pointA, int pointB) {
@@ -25,6 +29,21 @@ public class Tools {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+
+	public static void clrscr() {
+		// Clears Screen in java
+		try {
+			if (System.getProperty("os.name").contains("Windows")) {
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		}
+			else {
+			System.out.print("\033[H\033[2J");
+			System.out.flush();
+			}
+		} catch (IOException | InterruptedException ex) {
 		}
 	}
 }
