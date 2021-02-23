@@ -13,7 +13,7 @@ public class Snake extends GameCharacter {
 		int x = playerLocation.getLocationX();
 		int y = playerLocation.getLocationY();
 
-		if (Tools.checkGap(playerLocation, this, 0)) {
+		if (x == getLocationX() && y == getLocationY()) {
 			Logic.snakebite = true;
 		} else if (x > getLocationX()) {
 			setLocationX(getLocationX() + 1);

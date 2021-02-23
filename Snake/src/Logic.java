@@ -242,19 +242,29 @@ public class Logic {
 		int inputKey = 0;
 		addCharsToList();
 		setPositions();
-
+		Player p = (Player) characters.get(2);
 		
-		while (!snakebite) {
+		while (true) {
 			printField();
 			try {
-			inputKey =RawConsoleInput.read(true);
+			inputKey = RawConsoleInput.read(true);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			Player p = (Player) characters.get(2);
 			p.move(inputKey);
+			for (GameCharacter snakes : characters) {
+				
+				if (snakes.getClass().getName() == "Snake") {
+					
+					Snake s = (Snake) snakes;
+					System.out.print(s.getClass().getName());
+					s.move(p);
+				}
+			}
+			
+			
+			
 		}
 		
 	
