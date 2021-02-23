@@ -11,6 +11,7 @@ import java.util.Random;
  */
 public class Logic {
 
+	public static boolean snakebite = false;
 	// random object for automate Game character setting
 	Random random = new Random();
 	private int count = 0;
@@ -235,10 +236,25 @@ public class Logic {
 
 	public void runGame() {
 //		Scanner sc = new Scanner(System.in);
+		
+		int inputKey = 0;
 		addCharsToList();
 		setPositions();
 
 		printField();
+		while (!snakebite) {
+			try {
+			inputKey =RawConsoleInput.read(true);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Player p = (Player) characters.get(2);
+			p.move(inputKey);
+		}
+		
+	
 
 //		sc.close();
 	}

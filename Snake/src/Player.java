@@ -14,27 +14,28 @@ public class Player extends GameCharacter {
 
 	private int tmp;
 
-	public void move(char input) {
+	public void move(int input) {
 
 		switch (input) {
 
-		case 'w':
+		case 119: /// ASCII CODE w
 			tmp = getLocationX();
 			setLocationX(--tmp);
 			break;
-		case 's':
+		case 115: /// ASCII CODE s
 			tmp = getLocationX();
 			setLocationX(++tmp);
 			break;
-		case 'a':
+		case 97: /// ASCII CODE a
 			tmp = getLocationY();
 			setLocationY(--tmp);
 			break;
-		case 'd':
+		case 100: /// ASCII CODE d
 			tmp = getLocationY();
 			setLocationY(++tmp);
 			break;
-
+		case 27: /// ASCII CODE ESC
+			System.exit(0);
 		default:
 			break;
 		}

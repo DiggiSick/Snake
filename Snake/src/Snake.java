@@ -13,17 +13,17 @@ public class Snake extends GameCharacter {
 		int x = playerLocation.getLocationX();
 		int y = playerLocation.getLocationY();
 
-//		if (Tools.checkGap(this.getLocationX(), x, 0)) {
-//
-//		} else if (x > getLocationX()) {
-//			setLocationX(getLocationX() + 1);
-//		} else if (x < getLocationX()) {
-//			setLocationX(getLocationX() - 1);
-//		} else if (y > getLocationY()) {
-//			setLocationY(getLocationY() + 1);
-//		} else if (y <= getLocationY()) {
-//			setLocationY(getLocationY() - 1);
-//		}
+		if (Tools.checkGap(playerLocation, this, 0)) {
+			Logic.snakebite = true;
+		} else if (x > getLocationX()) {
+			setLocationX(getLocationX() + 1);
+		} else if (x < getLocationX()) {
+			setLocationX(getLocationX() - 1);
+		} else if (y > getLocationY()) {
+			setLocationY(getLocationY() + 1);
+		} else if (y < getLocationY()) {
+			setLocationY(getLocationY() - 1);
+		}
 
 	}
 }
