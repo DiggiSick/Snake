@@ -19,6 +19,8 @@ public class Logic {
 	// set the size of the play field
 	private int row = 15;
 	private int col = 25;
+	
+    public int level = 1;
 	// Creating play field here ##### Change size if you want
 
 	ArrayList<GameCharacter> characters = new ArrayList<>();
@@ -35,6 +37,7 @@ public class Logic {
 //	GameCharacter[] characters = { door, snake, player, trap1, trap2, trap3 };
 
 	private void addCharsToList() {
+		characters.clear();
 		characters.add(new Door());
 		characters.add(new Snake());
 		characters.add(new Player());
@@ -113,6 +116,7 @@ public class Logic {
 
 	public void printField() {
 		Tools.clrscr();
+		System.out.print("\nLevel: " + level);
 		for (int i = 0; i < row; i++) {
 			System.out.print("\n");
 			for (int j = 0; j < col; j++) {
@@ -233,34 +237,47 @@ public class Logic {
 //	}
 
 	public void createSnake() {
-		characters.add(new Snake());
+		Snake s = new Snake();
+		characters.add(s);
+		s.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
 	}
 
-	public void runGame() {
+	public void initGame() {
+		addCharsToList();
+		setPositions();
+	}
+	
+	public void runGame()  throws IOException{
 //		Scanner sc = new Scanner(System.in);
 		
 		int inputKey = 0;
-		addCharsToList();
-		setPositions();
-		Player p = (Player) characters.get(2);
-		
-		while (true) {
+	    initGame();
+		while (level > 0) {
+			Player p = (Player) characters.get(2);
+			Door d = (Door) characters.get(0);
 			printField();
-			try {
 			inputKey = RawConsoleInput.read(true);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			p.move(inputKey);
-			for (GameCharacter snakes : characters) {
-				
-				if (snakes.getClass().getName() == "Snake") {
-					
+			for (GameCharacter snakes : characters) {				
+				if (snakes.getClass().getName() == "Snake") {					
 					Snake s = (Snake) snakes;
 					System.out.print(s.getClass().getName());
 					s.move(p);
 				}
+			}
+			for (GameCharacter chara : characters) {				
+				if (chara.getClass().getName() == "Trapdoor") {					
+					Trapdoor t = (Trapdoor) chara;
+					if( t.getLocationX() == p.getLocationX() && t.getLocationY() == p.getLocationY()) {
+						createSnake();
+						break;
+					}
+				}
+			}
+			//check if Player hits the door
+			if( d.getLocationX() == p.getLocationX() && d.getLocationY() == p.getLocationY()) {
+				level++;
+				initGame();
 			}
 			
 			
