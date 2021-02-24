@@ -14,7 +14,7 @@ public class Snake extends GameCharacter {
 		int y = playerLocation.getLocationY();
 
 		if (x == getLocationX() && y == getLocationY()) {
-			Logic.snakebite = true;
+			//Logic.snakebite = true;
 		} else if (x > getLocationX()) {
 			setLocationX(getLocationX() + 1);
 		} else if (x < getLocationX()) {
@@ -25,5 +25,12 @@ public class Snake extends GameCharacter {
 			setLocationY(getLocationY() - 1);
 		}
 
+	}
+	public void checkSnakebite(Player playerLocation) {
+		int x = playerLocation.getLocationX();
+		int y = playerLocation.getLocationY();
+		if (x == getLocationX() && y == getLocationY()) {
+			Logic.snakebite = true;
+		}
 	}
 }

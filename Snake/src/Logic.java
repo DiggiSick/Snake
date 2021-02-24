@@ -42,7 +42,7 @@ public class Logic {
 		characters.add(new Snake());
 		characters.add(new Player());
 
-		int traps = random.nextInt(5) + 3;
+		int traps = random.nextInt(5) + 5;
 //		System.out.println(traps);
 		for (int i = 0; i < traps; i++) {
 
@@ -249,7 +249,7 @@ public class Logic {
 	
 	public void runGame()  throws IOException{
 //		Scanner sc = new Scanner(System.in);
-		
+		int snakeMoveCounter = 0;
 		int inputKey = 0;
 	    initGame();
 		while (level > 0) {
@@ -258,13 +258,24 @@ public class Logic {
 			printField();
 			inputKey = RawConsoleInput.read(true);
 			p.move(inputKey);
+			
 			for (GameCharacter snakes : characters) {				
 				if (snakes.getClass().getName() == "Snake") {					
 					Snake s = (Snake) snakes;
-					System.out.print(s.getClass().getName());
-					s.move(p);
+					//System.out.print(s.getClass().getName());
+					if (snakeMoveCounter == 0) {
+						s.move(p);
+						snakeMoveCounter = 3;
+					}
+					s.checkSnakebite(p);
+					snakeMoveCounter--;
 				}
 			}
+			
+			if(Logic.snakebite) {
+				level = level - 5;
+			}
+			
 			for (GameCharacter chara : characters) {				
 				if (chara.getClass().getName() == "Trapdoor") {					
 					Trapdoor t = (Trapdoor) chara;
@@ -283,6 +294,9 @@ public class Logic {
 			
 			
 		}
+		System.out.println("Game Over!");
+		System.exit(0);
+		
 		
 	
 
