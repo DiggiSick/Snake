@@ -276,14 +276,17 @@ public class Logic {
 				level = level - 5;
 			}
 			
-			for (GameCharacter chara : characters) {				
+			int i = 0;
+			for (GameCharacter chara : characters) {
 				if (chara.getClass().getName() == "Trapdoor") {					
 					Trapdoor t = (Trapdoor) chara;
 					if( t.getLocationX() == p.getLocationX() && t.getLocationY() == p.getLocationY()) {
 						createSnake();
+						characters.remove(i);
 						break;
 					}
 				}
+				i++;
 			}
 			//check if Player hits the door
 			if( d.getLocationX() == p.getLocationX() && d.getLocationY() == p.getLocationY()) {
