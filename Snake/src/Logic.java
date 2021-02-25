@@ -8,6 +8,7 @@ import java.util.Random;
  * Represents the gamelogic.
  * 
  * @author Nikolas Wach
+ * @author Mirco Umbach
  * @author www.LoweWriter.com
  * @version 1.0
  */
