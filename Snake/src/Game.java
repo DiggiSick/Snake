@@ -4,6 +4,7 @@
 import java.io.IOException;
 /**
  * @author Nikolas
+ * @author Mirco Umbach
  *
  */
 public class Game {

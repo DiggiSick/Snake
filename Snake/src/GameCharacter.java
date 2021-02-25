@@ -4,6 +4,7 @@
 
 /**
  * @author Nikolas
+ * @author Mirco Umbach
  *
  */
 public abstract class GameCharacter {
