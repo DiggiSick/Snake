@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+
 /**
  * Represents the gamelogic.
  * 
@@ -11,20 +13,145 @@ import java.util.Random;
  */
 public class Logic {
 
-	public static boolean snakebite = false;
-	// random object for automate Game character setting
-	Random random = new Random();
-	private int count = 0;
-
-	// set the size of the play field
-	private int row = 15;
-	private int col = 25;
 	
-    public int level = 1;
-	// Creating play field here ##### Change size if you want
+	// random object to automate Game character setting
+	Random random = new Random();
+	
+	// set the size of the play field
+	private final int PLAYFIELD_HEIGHT = 10;
+	private final int PLAYFIELD_WIDTH = 25;
+	
+	// level variable which increase the number of Trapdoors
+    private int level = 1;
 
+	// 
+	private final int SNAKESKIPP_ROUND = 1;
+
+	// stores all Gamecharacters
 	ArrayList<GameCharacter> characters = new ArrayList<>();
-	// Creating Game characters ##### Player Snake And Door
+
+	private void generateCharacters() {
+		characters.clear();
+		characters.add(new Door());
+		characters.add(new Snake());
+		characters.add(new Player());
+
+		int traps = random.nextInt(level * 2) + 5;
+		for (int i = 0; i < traps; i++) {
+			characters.add(new Trapdoor());
+		}
+	}
+
+	private void createSnake() {
+		Snake snake = new Snake();
+		characters.add(snake);
+		snake.setLocation((1 + random.nextInt(PLAYFIELD_HEIGHT - 2)), (1 + random.nextInt(PLAYFIELD_WIDTH - 2)));
+	}
+
+	public boolean checkPositions() {
+		int gap;
+
+		for (GameCharacter gameCharacter : characters) {
+			for (GameCharacter gameCharacter2 : characters) {
+				if (gameCharacter != gameCharacter2) {
+					gap = gameCharacter.getClass().getName() == "Trapdoor"
+							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 2;
+
+					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {						
+						return false;
+					}
+				}
+			}
+		}		
+		return true;
+	}
+
+	public void setPositions() {
+		while (!checkPositions()) {
+			for (GameCharacter gameCharacter : characters) {
+				gameCharacter.setLocation((1 + random.nextInt(PLAYFIELD_HEIGHT - 2)), (1 + random.nextInt(PLAYFIELD_WIDTH - 2)));
+			}
+		}
+	}
+
+	public void printField() {
+		Tools.clearScreen();
+		System.out.print("\nLevel: " + level);
+		for (int i = 0; i < PLAYFIELD_HEIGHT; i++) {
+			System.out.print("\n");
+			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
+				char symbol = '.';
+				for (GameCharacter gameCharacter : characters) {
+					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
+						symbol = gameCharacter.GetSymbol();
+						continue;
+					}
+				}
+				if (i == 0 || j == 0 || i == PLAYFIELD_HEIGHT - 1 || j == PLAYFIELD_WIDTH - 1) {
+					symbol = '#';
+				}
+				System.out.print(symbol);
+			}
+		}
+		System.out.print("\n");
+	}
+	
+	private void initGame() {
+		generateCharacters();
+		setPositions();
+	}
+	
+	public void runGame()  throws IOException{
+
+		int snakeSkipRound = 0; // store how much moves the snake skipped
+		int inputKey = 0;	// stores userinput as ASCII-Code
+	    initGame();
+
+		while (level > 0) {
+			Player player = (Player)characters.get(2);
+			Door door = (Door)characters.get(0);
+			printField();
+			inputKey = RawConsoleInput.read(true);
+			player.move(inputKey);
+						
+            if (snakeSkipRound == 0) {
+                for (GameCharacter snakes : characters) {
+                    if (snakes.getClass().getName() == "Snake") {
+                        Snake snake = (Snake)snakes;
+                        snake.move(player);                       
+                        if(snake.checkSnakebite(player)){
+							level = level - 5;
+						}
+                    }
+                }
+                snakeSkipRound = SNAKESKIPP_ROUND;
+            } else {
+                snakeSkipRound--;
+            }
+									
+			int i = 0; // count index for ArrayList
+			for (GameCharacter character : characters) {
+				if (character.getClass().getName() == "Trapdoor") {					
+					Trapdoor trap = (Trapdoor) character;
+					if( trap.getLocationX() == player.getLocationX() && trap.getLocationY() == player.getLocationY()) {
+						createSnake();
+						characters.remove(i); // remove Trapdoor
+						break;
+					}
+				}
+				i++;
+			}
+			//check if Player hits the door
+			if( door.getLocationX() == player.getLocationX() && door.getLocationY() == player.getLocationY()) {
+				level++;
+				initGame();
+			}									
+		}
+		System.out.println("Game Over!");
+		System.exit(0);
+	}
+
+// Creating Game characters ##### Player Snake And Door
 //	Door door = new Door((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
 //	Snake snake = new Snake((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
 //	Player player = new Player((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
@@ -36,107 +163,36 @@ public class Logic {
 
 //	GameCharacter[] characters = { door, snake, player, trap1, trap2, trap3 };
 
-	private void addCharsToList() {
-		characters.clear();
-		characters.add(new Door());
-		characters.add(new Snake());
-		characters.add(new Player());
-
-		int traps = random.nextInt(5) + 5;
-//		System.out.println(traps);
-		for (int i = 0; i < traps; i++) {
-
-			characters.add(new Trapdoor());
-
-		}
-
-	}
-
-	public void printChars() {
-		for (GameCharacter gameCharacter : characters) {
-			for (GameCharacter gameCharacter2 : characters) {
-				if (gameCharacter != gameCharacter2) {
-					System.out
-							.println(gameCharacter.getClass().getName() + " : " + gameCharacter2.getClass().getName());
-				}
-			}
-		}
-	}
-
-	public boolean checkPositions() {
-		int gap;
-
-		for (GameCharacter gameCharacter : characters) {
-			for (GameCharacter gameCharacter2 : characters) {
-				if (gameCharacter != gameCharacter2) {
-					gap = gameCharacter.getClass().getName() == "Trapdoor"
-							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 2;
-//					System.out
-//							.println(gameCharacter.getClass().getName() + " : " + gameCharacter2.getClass().getName());
-					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {
-						count++;
-						return false;
-					}
-				}
-			}
-		}
-		System.out.print(count);
-		return true;
-
-	}
-	// Instruction Text for how the game should be played
-//	private String welcomeText = "\nWilkommen bei Snake. Um ihre Spielfigur zu bewegen benutzen Sie die Tasten 'W' f�r hoch, 'S' f�r runter, 'A' f�r links und 'D' f�r rechts.\n"
-//			+ "Ziel des Spiels ist es die T�r '#' zu erreichen, bevor die Schlange 'S' Sie als Spieler 'P' erwischt!\n"
-//			+ "Wenn Sie nach einer Eingabe gefragt werden, Benutzen Sie die o.g Richtungstasten und best�tigen Sie mit enter um Ihren Zug abzuschlie�en.";
-
-//	public void printField() {
-//
-//		for (int i = 0; i < row; i++) {
-//			System.out.print("\n");
-//			for (int j = 0; j < col; j++) {
-//				boolean isCharacter = false;
-//				for (GameCharacter gameCharacter : characters) {
-//					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
-//						System.out.print(gameCharacter.GetSymbol());
-//						isCharacter = true;
-//						continue;
-//					}
-//				}
-//				if (i == 0 || j == 0 || i == row - 1 || j == col - 1) {
-//					System.out.print('#');
-//				}
-//
-//				else if (!isCharacter) {
-//					System.out.print('.');
-//				}
-//			}
+//	private boolean winGame() {
+//		if (door.getLocation()[0] == player.getLocation()[0] && door.getLocation()[1] == player.getLocation()[1]) {
+//			pf.clearLastPosition(player.getLocation());
+//			pf.setCharAt(player.getLocation());
+//			return true;
+//		} else {
+//			return false;
 //		}
+//	}
 //
+//	private boolean lostGame() {
+//		if (snake.getLocation()[0] == player.getLocation()[0] && snake.getLocation()[1] == player.getLocation()[1]
+//				|| player.getLocation()[0] == trap1.getLocation()[0]
+//						&& player.getLocation()[1] == trap1.getLocation()[1]
+//				|| player.getLocation()[0] == trap2.getLocation()[0]
+//						&& player.getLocation()[1] == trap2.getLocation()[1]
+//				|| player.getLocation()[0] == trap3.getLocation()[0]
+//						&& player.getLocation()[1] == trap3.getLocation()[1]) {
+//			return true;
+//		} else {
+//			return false;
+//		}
 //	}
 
-	public void printField() {
-		Tools.clrscr();
-		System.out.print("\nLevel: " + level);
-		for (int i = 0; i < row; i++) {
-			System.out.print("\n");
-			for (int j = 0; j < col; j++) {
-				char symb = '.';
-				for (GameCharacter gameCharacter : characters) {
-					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
-						symb = gameCharacter.GetSymbol();
-						continue;
-					}
-				}
-				if (i == 0 || j == 0 || i == row - 1 || j == col - 1) {
-					symb = '#';
-				}
-				System.out.print(symb);
-			}
-		}
-		System.out.print("\n");
-	}
-
-
+//	public void InitalizeGame() {
+//		pf.InitalizeField();
+//		setCharacters();
+//		pf.PrintField();
+//
+//	}
 //	public void setTraps() {
 //		trap1.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
 //		trap2.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
@@ -192,128 +248,43 @@ public class Logic {
 //		}
 //
 //	}
+	// Instruction Text for how the game should be played
+//	private String welcomeText = "\nWilkommen bei Snake. Um ihre Spielfigur zu bewegen benutzen Sie die Tasten 'W' f�r hoch, 'S' f�r runter, 'A' f�r links und 'D' f�r rechts.\n"
+//			+ "Ziel des Spiels ist es die T�r '#' zu erreichen, bevor die Schlange 'S' Sie als Spieler 'P' erwischt!\n"
+//			+ "Wenn Sie nach einer Eingabe gefragt werden, Benutzen Sie die o.g Richtungstasten und best�tigen Sie mit enter um Ihren Zug abzuschlie�en.";
 
-	public void setPositions() {
-
-		while (!checkPositions()) {
-
-			for (GameCharacter gameCharacter : characters) {
-				gameCharacter.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-			}
-
-		}
-
-	}
-
-//	private boolean winGame() {
-//		if (door.getLocation()[0] == player.getLocation()[0] && door.getLocation()[1] == player.getLocation()[1]) {
-//			pf.clearLastPosition(player.getLocation());
-//			pf.setCharAt(player.getLocation());
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+//	public void printField() {
 //
-//	private boolean lostGame() {
-//		if (snake.getLocation()[0] == player.getLocation()[0] && snake.getLocation()[1] == player.getLocation()[1]
-//				|| player.getLocation()[0] == trap1.getLocation()[0]
-//						&& player.getLocation()[1] == trap1.getLocation()[1]
-//				|| player.getLocation()[0] == trap2.getLocation()[0]
-//						&& player.getLocation()[1] == trap2.getLocation()[1]
-//				|| player.getLocation()[0] == trap3.getLocation()[0]
-//						&& player.getLocation()[1] == trap3.getLocation()[1]) {
-//			return true;
-//		} else {
-//			return false;
+//		for (int i = 0; i < row; i++) {
+//			System.out.print("\n");
+//			for (int j = 0; j < col; j++) {
+//				boolean isCharacter = false;
+//				for (GameCharacter gameCharacter : characters) {
+//					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
+//						System.out.print(gameCharacter.GetSymbol());
+//						isCharacter = true;
+//						continue;
+//					}
+//				}
+//				if (i == 0 || j == 0 || i == row - 1 || j == col - 1) {
+//					System.out.print('#');
+//				}
+//
+//				else if (!isCharacter) {
+//					System.out.print('.');
+//				}
+//			}
 //		}
-//	}
-
-//	public void InitalizeGame() {
-//		pf.InitalizeField();
-//		setCharacters();
-//		pf.PrintField();
 //
 //	}
-
-	public void createSnake() {
-		Snake s = new Snake();
-		characters.add(s);
-		s.setLocation((1 + random.nextInt(row - 2)), (1 + random.nextInt(col - 2)));
-	}
-
-	public void initGame() {
-		addCharsToList();
-		setPositions();
-	}
-	
-	public void runGame()  throws IOException{
-//		Scanner sc = new Scanner(System.in);
-		int snakeMoveCounter = 0;
-		int inputKey = 0;
-	    initGame();
-		while (level > 0) {
-			Player p = (Player) characters.get(2);
-			Door d = (Door) characters.get(0);
-			printField();
-			inputKey = RawConsoleInput.read(true);
-			p.move(inputKey);
-			
-			for (GameCharacter snakes : characters) {				
-				if (snakes.getClass().getName() == "Snake") {					
-					Snake s = (Snake) snakes;
-					//System.out.print(s.getClass().getName());
-					if (snakeMoveCounter == 0) {
-						s.move(p);
-						snakeMoveCounter = 3;
-					}
-					s.checkSnakebite(p);
-					snakeMoveCounter--;
-				}
-			}
-			
-			if(Logic.snakebite) {
-				level = level - 5;
-			}
-			
-			int i = 0;
-			for (GameCharacter chara : characters) {
-				if (chara.getClass().getName() == "Trapdoor") {					
-					Trapdoor t = (Trapdoor) chara;
-					if( t.getLocationX() == p.getLocationX() && t.getLocationY() == p.getLocationY()) {
-						createSnake();
-						characters.remove(i);
-						break;
-					}
-				}
-				i++;
-			}
-			//check if Player hits the door
-			if( d.getLocationX() == p.getLocationX() && d.getLocationY() == p.getLocationY()) {
-				level++;
-				initGame();
-			}
-			
-			
-			
-		}
-		System.out.println("Game Over!");
-		System.exit(0);
-		
-		
-	
-
-//		sc.close();
-	}
-
-	public static void clearConsole() {
-		try {
-			if (System.getProperty("os.name").contains("Windows")) {
-				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-			} else {
-				System.out.print("\033\143");
-			}
-		} catch (IOException | InterruptedException ex) {
-		}
-	}
+	// public void printChars() {
+	// 	for (GameCharacter gameCharacter : characters) {
+	// 		for (GameCharacter gameCharacter2 : characters) {
+	// 			if (gameCharacter != gameCharacter2) {
+	// 				System.out
+	// 						.println(gameCharacter.getClass().getName() + " : " + gameCharacter2.getClass().getName());
+	// 			}
+	// 		}
+	// 	}
+	// }
 }

@@ -26,11 +26,13 @@ public class Snake extends GameCharacter {
 		}
 
 	}
-	public void checkSnakebite(Player playerLocation) {
+	public boolean checkSnakebite(Player playerLocation) {
 		int x = playerLocation.getLocationX();
 		int y = playerLocation.getLocationY();
 		if (x == getLocationX() && y == getLocationY()) {
-			Logic.snakebite = true;
+			return true;
+		}else{
+			return false;
 		}
 	}
 }
