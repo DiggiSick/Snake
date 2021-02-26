@@ -141,8 +141,6 @@ public class Logic {
 				System.out.println("Unzulässige Eingabe! Bitte verwenden Sie nur W A S D um die Spielfigur zu bewegen oder ESC um das Spiel zu verlassen");
 				break;
 			}
-
-			player.move(inputKey);
 							
             if (snakeSkipRound == 0) {
                 for (GameCharacter snakes : characters) {
