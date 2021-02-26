@@ -14,17 +14,6 @@ public class Player extends GameCharacter {
 		super(0, 0, 'P');
 	}
 
-	private int tmp;
-
-	public void move(int input) {
-
-		
-		switch (input) {
-
-	
-		}
-	}
-
 	public void moveUP(){
 		setLocationX(getLocationX() - 1);
 	}
