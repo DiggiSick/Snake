@@ -3,6 +3,8 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.tools.Tool;
+
 
 
 /**
@@ -89,7 +91,7 @@ public class Logic {
 		for (int i = 0; i < PLAYFIELD_HEIGHT; i++) {
 			field.append("\n");
 			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
-				char symbol = '.';
+				String symbol = Tools.colourToGrey(".");
 				for (GameCharacter gameCharacter : characters) {
 					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY() && gameCharacter.getClass().getName() != "Trapdoor") {
 						symbol = gameCharacter.GetSymbol();
@@ -97,7 +99,7 @@ public class Logic {
 					}
 				}
 				if (i == 0 || j == 0 || i == PLAYFIELD_HEIGHT - 1 || j == PLAYFIELD_WIDTH - 1) {
-					symbol = '#';
+					symbol = Tools.colourToYellow("⛆");
 				}
 				field.append(symbol);
 			}

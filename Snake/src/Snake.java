@@ -8,7 +8,7 @@
 public class Snake extends GameCharacter {
 
 	public Snake() {
-		super(0, 0, 'S');
+		super(0, 0, Tools.colourToRed("∫"));
 	}
 
 	public void move(Player player) {

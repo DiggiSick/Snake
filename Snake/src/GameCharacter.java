@@ -7,10 +7,10 @@
 public abstract class GameCharacter {
 
 //	private HashMap<Integer, Integer> location = new HashMap<Integer, Integer>();
-	private char symbol;
+	private String symbol;
 	private int locationX, locationY;
 
-	public GameCharacter(int x, int y, char c) {
+	public GameCharacter(int x, int y, String c) {
 		setLocation(x, y);
 		SetSymbol(c);
 
@@ -22,11 +22,11 @@ public abstract class GameCharacter {
 //		location.put(x, y);
 	}
 
-	public void SetSymbol(char c) {
+	public void SetSymbol(String c) {
 		symbol = c;
 	}
 
-	public char GetSymbol() {
+	public String GetSymbol() {
 		return symbol;
 	}
 
