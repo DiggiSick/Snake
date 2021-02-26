@@ -25,7 +25,7 @@ public class Tools {
 //		System.out.println(gapX);
 		int gapY = getDifference(gc1.getLocationY(), gc2.getLocationY());
 //		System.out.println(gapY);
-		if (gapX > gap && gapY > gap) {
+		if (gapX >= gap && gapY >= gap) {
 			return true;
 		} else {
 			return false;

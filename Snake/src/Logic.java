@@ -20,7 +20,7 @@ public class Logic {
 	// set the size of the play field
 	private final int PLAYFIELD_HEIGHT = 10;
 	private final int PLAYFIELD_WIDTH = 25;
-
+	private final int LEVEL_CAP = 10;
 	// level variable which increase the number of Trapdoors
     private int level = 1;
 
@@ -33,7 +33,7 @@ public class Logic {
 		characters.add(new Snake());
 		characters.add(new Player());
 
-		int traps = random.nextInt(level * 2) + 5;
+		int traps = level * 2;
 		for (int i = 0; i < traps; i++) {
 			characters.add(new Trapdoor());
 		}
@@ -88,7 +88,7 @@ public class Logic {
 			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
 				char symbol = '.';
 				for (GameCharacter gameCharacter : characters) {
-					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()) {
+					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY() && gameCharacter.getClass().getName() != "Trapdoor") {
 						symbol = gameCharacter.GetSymbol();
 						continue;
 					}
@@ -113,7 +113,7 @@ public class Logic {
 		int inputKey = 0;	// stores userinput as ASCII-Code
 	    initGame();
 
-		while (level > 0) {
+		while (level <= LEVEL_CAP) {
 			Player player = (Player)characters.get(2);
 			Door door = (Door)characters.get(0);
 			printField();
@@ -173,7 +173,8 @@ public class Logic {
                         Snake snake = (Snake)snakes;
                         snake.move(player);                       
                         if(Tools.checkSnakebite(player, snake)){
-							level = level - 5;
+							level = 1;
+							initGame();
 						}
                     }
                 }
