@@ -7,7 +7,6 @@
  */
 import java.io.IOException;
 
-
 public class Tools {
 
 	private static int getDifference(int pointA, int pointB) {
@@ -45,4 +44,27 @@ public class Tools {
 		} catch (IOException | InterruptedException ex) {
 		}
 	}
+
+	/*
+	set color of input and after that set color back to default
+	https://stackoverflow.com/questions/1448858/how-to-color-system-out-println-output
+	https://en.wikipedia.org/wiki/ANSI_escape_code#Escape_sequences
+	*/
+
+	public static String colourToRed( String input){
+		return (char)27 + "[31m" + input + (char)27 + "[0m";
+	}
+	public static String colourToCyan( String input){
+		return (char)27 + "[36m" + input + (char)27 + "[0m";
+	}
+	public static String colourToGreen( String input){
+		return (char)27 + "[32m" + input + (char)27 + "[0m";
+	}
+	public static String colourToGrey( String input){
+		return (char)27 + "[90m" + input + (char)27 + "[0m";
+	}
+	public static String colourToYellow( String input){
+		return (char)27 + "[93m" + input + (char)27 + "[0m";
+	}
+	
 }
