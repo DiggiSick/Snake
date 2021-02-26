@@ -1,11 +1,11 @@
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.tools.Tool;
-
-
 
 /**
  * Represents the gamelogic.
@@ -16,20 +16,19 @@ import javax.tools.Tool;
  */
 public class Logic {
 
-	
 	// random object to automate Game character setting
 	Random random = new Random();
-	
+
 	// set the size of the play field
 	private final int PLAYFIELD_HEIGHT = 10;
 	private final int PLAYFIELD_WIDTH = 25;
 	private final int LEVEL_CAP = 10;
 	// level variable which increase the number of Trapdoors
-    private int level = 1;
+	private int level = 1;
 
 	// stores all Gamecharacters
 	ArrayList<GameCharacter> characters = new ArrayList<>();
-	
+
 	private void generateCharacters() {
 		characters.clear();
 		characters.add(new Door());
@@ -57,12 +56,12 @@ public class Logic {
 					gap = gameCharacter.getClass().getName() == "Trapdoor"
 							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 3;
 
-					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {						
+					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {
 						return false;
 					}
 				}
 			}
-		}		
+		}
 		return true;
 	}
 
@@ -70,13 +69,14 @@ public class Logic {
 	public void setPositions() {
 		int generationAttempts = 0;
 		while (!checkPositions()) {
-			if(generationAttempts > 10000000){//Stop Game if no valid Level is found after 10 Mio Attempts
+			if (generationAttempts > 10000000) {// Stop Game if no valid Level is found after 10 Mio Attempts
 				System.out.println("Level generation failed! To many Attempts failed.");
 				System.exit(1);
 			}
 			generationAttempts++;
 			for (GameCharacter gameCharacter : characters) {
-				gameCharacter.setLocation((1 + random.nextInt(PLAYFIELD_HEIGHT - 2)), (1 + random.nextInt(PLAYFIELD_WIDTH - 2)));
+				gameCharacter.setLocation((1 + random.nextInt(PLAYFIELD_HEIGHT - 2)),
+						(1 + random.nextInt(PLAYFIELD_WIDTH - 2)));
 			}
 
 		}
@@ -87,13 +87,14 @@ public class Logic {
 		StringWriter field = new StringWriter();
 		Tools.clearScreen();
 		field.append("\nLevel: " + level);
-//		System.out.print("\nLevel: " + level);
+		// System.out.print("\nLevel: " + level);
 		for (int i = 0; i < PLAYFIELD_HEIGHT; i++) {
 			field.append("\n");
 			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
 				String symbol = Tools.colourBackgroundToBlack(" ");
 				for (GameCharacter gameCharacter : characters) {
-					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY() && gameCharacter.getClass().getName() != "Trapdoor") {
+					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()
+							&& gameCharacter.getClass().getName() != "Trapdoor") {
 						symbol = Tools.colourBackgroundToBlack(gameCharacter.GetSymbol());
 						continue;
 					}
@@ -105,7 +106,14 @@ public class Logic {
 			}
 		}
 		field.append("\n");
-		System.out.print(field.getBuffer().toString());
+		PrintStream ps;
+		try {
+			ps = new PrintStream(System.out, true, "UTF-8");
+			ps.print(field.getBuffer().toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void initGame() {
