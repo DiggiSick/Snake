@@ -1,20 +1,18 @@
-/* 
+/**
+ * Helperclass with some funktionalstuff
  * 
- * Helper class for some functions 
- * */
-
+ * @author Nikolas Wach
+ * @author Mirco Umbach
+ * @version 1.0
+ */
 import java.io.IOException;
 
 
 public class Tools {
 
 	private static int getDifference(int pointA, int pointB) {
-		int difference;
-		if (pointA > pointB) {
-			difference = pointA - pointB;
-		} else {
-			difference = pointB - pointA;
-		}
+
+		int difference = pointA > pointB ? pointA - pointB : pointB - pointA;			
 		return difference;
 
 	}
@@ -22,14 +20,10 @@ public class Tools {
 	public static boolean checkGap(GameCharacter gc1, GameCharacter gc2, int gap) {
 
 		int gapX = getDifference(gc1.getLocationX(), gc2.getLocationX());
-//		System.out.println(gapX);
 		int gapY = getDifference(gc1.getLocationY(), gc2.getLocationY());
-//		System.out.println(gapY);
-		if (gapX >= gap && gapY >= gap) {
-			return true;
-		} else {
-			return false;
-		}
+
+		boolean checkGap = gapX >= gap && gapY >= gap ? true : false;		
+		return checkGap;
 	}
 
 		// define loose condition if the Snake reach player

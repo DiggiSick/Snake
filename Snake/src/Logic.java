@@ -9,7 +9,7 @@ import java.util.Random;
  * Represents the gamelogic.
  * 
  * @author Nikolas Wach
- * @author www.LoweWriter.com
+ * @author Mirco Umbach
  * @version 1.0
  */
 public class Logic {

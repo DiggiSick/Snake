@@ -1,8 +1,11 @@
+/**
+ * Represents snakecharacter.
+ * 
+ * @author Nikolas Wach
+ * @author Mirco Umbach
+ * @version 1.0
+ */
 public class Snake extends GameCharacter {
-	/*
-	 * Maybe function: stores location history if we want that the snake expand
-	 */
-//	public static HashMap<Integer, Integer> history = new HashMap<Integer, Integer>();
 
 	public Snake() {
 		super(0, 0, 'S');

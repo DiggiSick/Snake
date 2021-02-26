@@ -1,11 +1,8 @@
 /**
- * 
- */
-
-/**
  * @author Nikolas
  * @author Mirco Umbach
  *
+ * construct for gamecharacters
  */
 public abstract class GameCharacter {
 

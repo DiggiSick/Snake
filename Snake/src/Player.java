@@ -1,10 +1,9 @@
 /**
+ * Represents the playercharacter.
  * 
- */
-
-/**
- * @author Nikolas
- *
+ * @author Nikolas Wach
+ * @author Mirco Umbach
+ * @version 1.0
  */
 
 
