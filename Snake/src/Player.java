@@ -18,23 +18,40 @@ public class Player extends GameCharacter {
 
 	public void move(int input) {
 
+		
 		switch (input) {
 
 		case 119: /// ASCII CODE w
 			tmp = getLocationX();
-			setLocationX(--tmp);
+			if(tmp >= Logic.PLAYFIELD_HEIGHT +1){
+				setLocationX(--tmp);
+			}else{
+				//do nothing	
+			}							
 			break;
 		case 115: /// ASCII CODE s
 			tmp = getLocationX();
-			setLocationX(++tmp);
+			if( tmp <= Logic.PLAYFIELD_HEIGHT -1){
+				setLocationX(++tmp);
+			}else{
+				//do nothing
+			}			
 			break;
 		case 97: /// ASCII CODE a
 			tmp = getLocationY();
-			setLocationY(--tmp);
+			if(tmp >= Logic.PLAYFIELD_WIDTH +1){
+				setLocationY(--tmp);
+			}else{
+				//do nothing
+			}			
 			break;
 		case 100: /// ASCII CODE d
 			tmp = getLocationY();
-			setLocationY(++tmp);
+			if(tmp <= Logic.PLAYFIELD_WIDTH -1){
+				setLocationY(++tmp);
+			}else{
+				//do nothing
+			}			
 			break;
 		case 27: /// ASCII CODE ESC
 			System.exit(0);
@@ -42,4 +59,6 @@ public class Player extends GameCharacter {
 			break;
 		}
 	}
+
+
 }
