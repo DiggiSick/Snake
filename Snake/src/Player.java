@@ -10,7 +10,7 @@
 public class Player extends GameCharacter {
 
 	public Player() {
-		super(0, 0, Tools.colourToCyan("♿"));
+		super(0, 0, Tools.colourToCyan("☻"));
 	}
 
 	public void moveUP(){

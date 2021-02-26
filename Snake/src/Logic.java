@@ -91,15 +91,15 @@ public class Logic {
 		for (int i = 0; i < PLAYFIELD_HEIGHT; i++) {
 			field.append("\n");
 			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
-				String symbol = Tools.colourToGrey(".");
+				String symbol = Tools.colourBackgroundToBlack(" ");
 				for (GameCharacter gameCharacter : characters) {
 					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY() && gameCharacter.getClass().getName() != "Trapdoor") {
-						symbol = gameCharacter.GetSymbol();
+						symbol = Tools.colourBackgroundToBlack(gameCharacter.GetSymbol());
 						continue;
 					}
 				}
 				if (i == 0 || j == 0 || i == PLAYFIELD_HEIGHT - 1 || j == PLAYFIELD_WIDTH - 1) {
-					symbol = Tools.colourToYellow("⛆");
+					symbol = Tools.colourBackgroundToGrey(" ");
 				}
 				field.append(symbol);
 			}

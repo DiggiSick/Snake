@@ -6,6 +6,6 @@
 public class Door extends GameCharacter {
 
 	public Door() {
-		super(0, 0, Tools.colourToGreen("∏"));
+		super(0, 0, Tools.colourToYellow("∏"));
 	}
 }

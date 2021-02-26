@@ -66,5 +66,19 @@ public class Tools {
 	public static String colourToYellow( String input){
 		return (char)27 + "[93m" + input + (char)27 + "[0m";
 	}
-	
+	public static String colourBackgroundToYellow( String input){
+		return (char)27 + "[43m" + input + (char)27 + "[0m";
+	}
+	public static String colourBackgroundToGrey( String input){
+		return (char)27 + "[100m" + input + (char)27 + "[0m";
+	}
+	public static String colourBackgroundToBlue( String input){
+		return (char)27 + "[44m" + input + (char)27 + "[0m";
+	}
+	public static String colourBackgroundToBlack( String input){
+		return (char)27 + "[40m" + input + (char)27 + "[0m";
+	}
+	public static String colourBackgroundToGreen( String input){
+		return (char)27 + "[102m" + input + (char)27 + "[0m";
+	}
 }
