@@ -8,7 +8,6 @@ import java.util.Random;
  * Represents the gamelogic.
  * 
  * @author Nikolas Wach
- * @author Mirco Umbach
  * @author www.LoweWriter.com
  * @version 1.0
  */
@@ -21,16 +20,13 @@ public class Logic {
 	// set the size of the play field
 	private final int PLAYFIELD_HEIGHT = 10;
 	private final int PLAYFIELD_WIDTH = 25;
-	
+
 	// level variable which increase the number of Trapdoors
     private int level = 1;
 
-	// 
-	private final int SNAKESKIPP_ROUND = 1;
-
 	// stores all Gamecharacters
 	ArrayList<GameCharacter> characters = new ArrayList<>();
-
+	
 	private void generateCharacters() {
 		characters.clear();
 		characters.add(new Door());
@@ -67,6 +63,7 @@ public class Logic {
 		return true;
 	}
 
+	// autoset characters
 	public void setPositions() {
 		while (!checkPositions()) {
 			for (GameCharacter gameCharacter : characters) {
@@ -75,6 +72,7 @@ public class Logic {
 		}
 	}
 
+	// print the hole game into console
 	public void printField() {
 		Tools.clearScreen();
 		System.out.print("\nLevel: " + level);
@@ -102,7 +100,7 @@ public class Logic {
 		setPositions();
 	}
 	
-	public void runGame()  throws IOException{
+	public void runGame() {
 
 		int snakeSkipRound = 0; // store how much moves the snake skipped
 		int inputKey = 0;	// stores userinput as ASCII-Code
@@ -112,42 +110,75 @@ public class Logic {
 			Player player = (Player)characters.get(2);
 			Door door = (Door)characters.get(0);
 			printField();
-			inputKey = RawConsoleInput.read(true);
-			player.move(inputKey);
-						
+
+			try {
+				inputKey = RawConsoleInput.read(true);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			
+			switch (inputKey){
+
+				case 119: /// ASCII CODE w
+				player.moveUP();				
+				break;
+
+			case 115: /// ASCII CODE s
+				player.moveDown();			
+				break;
+
+			case 97: /// ASCII CODE a
+				player.moveLeft();			
+				break;
+
+			case 100: /// ASCII CODE d
+				player.moveRight();			
+				break;
+
+			case 27: /// ASCII CODE ESC
+				System.exit(0);
+			default:
+				System.out.println("Unzulässige Eingabe! Bitte verwenden Sie nur W A S D um die Spielfigur zu bewegen oder ESC um das Spiel zu verlassen");
+				break;
+			}
+							
             if (snakeSkipRound == 0) {
                 for (GameCharacter snakes : characters) {
                     if (snakes.getClass().getName() == "Snake") {
                         Snake snake = (Snake)snakes;
                         snake.move(player);                       
-                        if(snake.checkSnakebite(player)){
+                        if(Tools.checkSnakebite(player, snake)){
 							level = level - 5;
 						}
                     }
                 }
-                snakeSkipRound = SNAKESKIPP_ROUND;
+                snakeSkipRound = 1;
             } else {
                 snakeSkipRound--;
             }
 									
 			int i = 0; // count index for ArrayList
+			// check whether player hits a trap to create a new snke and remove the trap
 			for (GameCharacter character : characters) {
 				if (character.getClass().getName() == "Trapdoor") {					
 					Trapdoor trap = (Trapdoor) character;
 					if( trap.getLocationX() == player.getLocationX() && trap.getLocationY() == player.getLocationY()) {
 						createSnake();
-						characters.remove(i); // remove Trapdoor
+						characters.remove(i); // remove trapdoor
 						break;
 					}
 				}
 				i++;
 			}
-			//check if Player hits the door
+			//check wether Player hits the door
 			if( door.getLocationX() == player.getLocationX() && door.getLocationY() == player.getLocationY()) {
 				level++;
 				initGame();
+			}else{
+				//do nothing
 			}									
 		}
+
 		System.out.println("Game Over!");
 		System.exit(0);
 	}
