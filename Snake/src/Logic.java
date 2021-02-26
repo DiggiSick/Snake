@@ -53,7 +53,7 @@ public class Logic {
 			for (GameCharacter gameCharacter2 : characters) {
 				if (gameCharacter != gameCharacter2) {
 					gap = gameCharacter.getClass().getName() == "Trapdoor"
-							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 2;
+							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 3;
 
 					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {						
 						return false;
