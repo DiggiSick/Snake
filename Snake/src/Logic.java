@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -81,10 +82,12 @@ public class Logic {
 
 	// print the hole game into console
 	public void printField() {
+		StringWriter field = new StringWriter();
 		Tools.clearScreen();
-		System.out.print("\nLevel: " + level);
+		field.append("\nLevel: " + level);
+//		System.out.print("\nLevel: " + level);
 		for (int i = 0; i < PLAYFIELD_HEIGHT; i++) {
-			System.out.print("\n");
+			field.append("\n");
 			for (int j = 0; j < PLAYFIELD_WIDTH; j++) {
 				char symbol = '.';
 				for (GameCharacter gameCharacter : characters) {
@@ -96,10 +99,11 @@ public class Logic {
 				if (i == 0 || j == 0 || i == PLAYFIELD_HEIGHT - 1 || j == PLAYFIELD_WIDTH - 1) {
 					symbol = '#';
 				}
-				System.out.print(symbol);
+				field.append(symbol);
 			}
 		}
-		System.out.print("\n");
+		field.append("\n");
+		System.out.print(field.getBuffer().toString());
 	}
 	
 	private void initGame() {
@@ -175,6 +179,7 @@ public class Logic {
                         if(Tools.checkSnakebite(player, snake)){
 							level = 1;
 							initGame();
+							break;
 						}
                     }
                 }
