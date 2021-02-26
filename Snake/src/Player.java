@@ -21,43 +21,24 @@ public class Player extends GameCharacter {
 		
 		switch (input) {
 
-		case 119: /// ASCII CODE w
-			tmp = getLocationX();
-			if(tmp >= Logic.PLAYFIELD_HEIGHT +1){
-				setLocationX(--tmp);
-			}else{
-				//do nothing	
-			}							
-			break;
-		case 115: /// ASCII CODE s
-			tmp = getLocationX();
-			if( tmp <= Logic.PLAYFIELD_HEIGHT -1){
-				setLocationX(++tmp);
-			}else{
-				//do nothing
-			}			
-			break;
-		case 97: /// ASCII CODE a
-			tmp = getLocationY();
-			if(tmp >= Logic.PLAYFIELD_WIDTH +1){
-				setLocationY(--tmp);
-			}else{
-				//do nothing
-			}			
-			break;
-		case 100: /// ASCII CODE d
-			tmp = getLocationY();
-			if(tmp <= Logic.PLAYFIELD_WIDTH -1){
-				setLocationY(++tmp);
-			}else{
-				//do nothing
-			}			
-			break;
-		case 27: /// ASCII CODE ESC
-			System.exit(0);
-		default:
-			break;
+	
 		}
+	}
+
+	public void moveUP(){
+		setLocationX(getLocationX() - 1);
+	}
+
+	public void moveDown(){
+		setLocationX(getLocationX() + 1);
+	}
+
+	public void moveLeft(){
+		setLocationY(getLocationY() - 1);
+	}
+
+	public void moveRight(){
+		setLocationY(getLocationY() +1 );
 	}
 
 

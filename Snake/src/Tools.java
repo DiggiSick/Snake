@@ -31,6 +31,13 @@ public class Tools {
 			return false;
 		}
 	}
+
+		// define loose condition if the Snake reach player
+		public static boolean checkSnakebite(Player player, Snake snake) {
+
+			boolean snakeBite = player.getLocationX() == snake.getLocationX() && player.getLocationY() == snake.getLocationY() ? true : false;		
+			return snakeBite;
+		}
 	
 
 	public static void clearScreen() {

@@ -8,31 +8,18 @@ public class Snake extends GameCharacter {
 		super(0, 0, 'S');
 	}
 
-	public void move(Player playerLocation) {
+	public void move(Player player) {
 
-		int x = playerLocation.getLocationX();
-		int y = playerLocation.getLocationY();
-
-		if (x == getLocationX() && y == getLocationY()) {
+		if (player.getLocationX() == getLocationX() && player.getLocationY() == getLocationY()) {
 			//Logic.snakebite = true;
-		} else if (x > getLocationX()) {
+		} else if (player.getLocationX() > getLocationX()) {
 			setLocationX(getLocationX() + 1);
-		} else if (x < getLocationX()) {
+		} else if (player.getLocationX() < getLocationX()) {
 			setLocationX(getLocationX() - 1);
-		} else if (y > getLocationY()) {
+		} else if (player.getLocationY() > getLocationY()) {
 			setLocationY(getLocationY() + 1);
-		} else if (y < getLocationY()) {
+		} else if (player.getLocationY() < getLocationY()) {
 			setLocationY(getLocationY() - 1);
-		}
-
-	}
-	public boolean checkSnakebite(Player playerLocation) {
-		int x = playerLocation.getLocationX();
-		int y = playerLocation.getLocationY();
-		if (x == getLocationX() && y == getLocationY()) {
-			return true;
-		}else{
-			return false;
 		}
 	}
 }
