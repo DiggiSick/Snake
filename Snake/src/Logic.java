@@ -65,10 +65,17 @@ public class Logic {
 
 	// autoset characters
 	public void setPositions() {
+		int generationAttempts = 0;
 		while (!checkPositions()) {
+			if(generationAttempts > 10000000){//Stop Game if no valid Level is found after 10 Mio Attempts
+				System.out.println("Level generation failed! To many Attempts failed.");
+				System.exit(1);
+			}
+			generationAttempts++;
 			for (GameCharacter gameCharacter : characters) {
 				gameCharacter.setLocation((1 + random.nextInt(PLAYFIELD_HEIGHT - 2)), (1 + random.nextInt(PLAYFIELD_WIDTH - 2)));
 			}
+
 		}
 	}
 
