@@ -120,19 +120,37 @@ public class Logic {
 			switch (inputKey){
 
 				case 119: /// ASCII CODE w
-				player.moveUP();				
+				if(player.getLocationX() > 1){
+					player.moveUP();
+				}else{
+					// do nothing
+				}
+								
 				break;
 
 			case 115: /// ASCII CODE s
-				player.moveDown();			
+				if(player.getLocationX() < PLAYFIELD_HEIGHT - 2){
+					player.moveDown();	
+				}else{
+					// do nothing
+				}
+						
 				break;
 
 			case 97: /// ASCII CODE a
-				player.moveLeft();			
+			if(player.getLocationY() > 1){
+				player.moveLeft();	
+			}else{
+				// do nothing
+			}						
 				break;
 
 			case 100: /// ASCII CODE d
-				player.moveRight();			
+			if(player.getLocationY() < PLAYFIELD_WIDTH - 2){
+				player.moveRight();	
+			}else{
+				//do nothing
+			}						
 				break;
 
 			case 27: /// ASCII CODE ESC
