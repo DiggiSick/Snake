@@ -1,11 +1,9 @@
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.tools.Tool;
 
 /**
  * Represents the gamelogic.
@@ -37,7 +35,7 @@ public class Logic {
 
 		int traps = level * 2;
 		for (int i = 0; i < traps; i++) {
-			characters.add(new Trapdoor());
+			characters.add(new TrapDoor());
 		}
 	}
 
@@ -84,7 +82,8 @@ public class Logic {
 
 	// print the hole game into console
 	public void printField() {
-		StringWriter field = new StringWriter();
+		PrintStream ps;
+		StringBuilder field = new StringBuilder();
 		Tools.clearScreen();
 		field.append("\nLevel: " + level);
 		// System.out.print("\nLevel: " + level);
@@ -106,10 +105,10 @@ public class Logic {
 			}
 		}
 		field.append("\n");
-		PrintStream ps;
+		
 		try {
 			ps = new PrintStream(System.out, true, "UTF-8");
-			ps.print(field.getBuffer().toString());
+			ps.print(field.toString());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -142,11 +141,10 @@ public class Logic {
 
 				case 119: /// ASCII CODE w
 				if(player.getLocationX() > 1){
-					player.moveUP();
+					player.moveUp();
 				}else{
 					// do nothing
-				}
-								
+				}								
 				break;
 
 			case 115: /// ASCII CODE s
@@ -154,8 +152,7 @@ public class Logic {
 					player.moveDown();	
 				}else{
 					// do nothing
-				}
-						
+				}						
 				break;
 
 			case 97: /// ASCII CODE a
@@ -202,7 +199,7 @@ public class Logic {
 			// check whether player hits a trap to create a new snke and remove the trap
 			for (GameCharacter character : characters) {
 				if (character.getClass().getName() == "Trapdoor") {					
-					Trapdoor trap = (Trapdoor) character;
+					TrapDoor trap = (TrapDoor) character;
 					if( trap.getLocationX() == player.getLocationX() && trap.getLocationY() == player.getLocationY()) {
 						createSnake();
 						characters.remove(i); // remove trapdoor

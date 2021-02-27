@@ -50,7 +50,6 @@ public class Tools {
 	https://stackoverflow.com/questions/1448858/how-to-color-system-out-println-output
 	https://en.wikipedia.org/wiki/ANSI_escape_code#Escape_sequences
 	*/
-
 	public static String colourToRed( String input){
 		return (char)27 + "[31m" + input + (char)27 + "[0m";
 	}

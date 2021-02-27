@@ -13,7 +13,7 @@ public class Player extends GameCharacter {
 		super(0, 0, Tools.colourToCyan("☻"));
 	}
 
-	public void moveUP(){
+	public void moveUp(){
 		setLocationX(getLocationX() - 1);
 	}
 

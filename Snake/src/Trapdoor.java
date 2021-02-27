@@ -4,9 +4,9 @@
  *
  * Represent Traps
  */
-public class Trapdoor extends GameCharacter {
+public class TrapDoor extends GameCharacter {
 
-	public Trapdoor() {
+	public TrapDoor() {
 		super(0, 0, ".");
 	}
 }
