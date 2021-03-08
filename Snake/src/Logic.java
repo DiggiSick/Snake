@@ -51,8 +51,8 @@ public class Logic {
 		for (GameCharacter gameCharacter : characters) {
 			for (GameCharacter gameCharacter2 : characters) {
 				if (gameCharacter != gameCharacter2) {
-					gap = gameCharacter.getClass().getName() == "Trapdoor"
-							|| gameCharacter2.getClass().getName() == "Trapdoor" ? 0 : 3;
+					gap = gameCharacter.getClass().getName() == "TrapDoor"
+							|| gameCharacter2.getClass().getName() == "TrapDoor" ? 0 : 3;
 
 					if (!Tools.checkGap(gameCharacter, gameCharacter2, gap)) {
 						return false;
@@ -93,7 +93,7 @@ public class Logic {
 				String symbol = Tools.colourBackgroundToBlack(" ");
 				for (GameCharacter gameCharacter : characters) {
 					if (i == gameCharacter.getLocationX() && j == gameCharacter.getLocationY()
-							&& gameCharacter.getClass().getName() != "Trapdoor") {
+							&& gameCharacter.getClass().getName() != "TrapDoor") {
 						symbol = Tools.colourBackgroundToBlack(gameCharacter.GetSymbol());
 						continue;
 					}
@@ -198,7 +198,7 @@ public class Logic {
 			int i = 0; // count index for ArrayList
 			// check whether player hits a trap to create a new snke and remove the trap
 			for (GameCharacter character : characters) {
-				if (character.getClass().getName() == "Trapdoor") {					
+				if (character.getClass().getName() == "TrapDoor") {					
 					TrapDoor trap = (TrapDoor) character;
 					if( trap.getLocationX() == player.getLocationX() && trap.getLocationY() == player.getLocationY()) {
 						createSnake();
